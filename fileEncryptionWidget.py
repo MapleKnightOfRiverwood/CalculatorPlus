@@ -1,7 +1,5 @@
-from PyQt5 import QtCore, QtGui, QtWidgets, Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QListWidgetItem, QPushButton
-from PyQt5.QtCore import Qt, QUrl
-import sys, os
+from PyQt5 import QtCore, QtGui, QtWidgets
+import os
 import shutil  # For copy function
 from fileDropboxWidget import DropBoxWidget
 
@@ -33,10 +31,10 @@ class Ui_fileEncryption(object):
         self.instructionText.setFont(font)
         self.instructionText.setObjectName("instructionText")
         self.instructionText1 = QtWidgets.QLabel(fileEncryption)
-        self.instructionText1.setGeometry(QtCore.QRect(640, 410, 291, 51))
+        self.instructionText1.setGeometry(QtCore.QRect(640, 410, 291, 55))
         font = QtGui.QFont()
         font.setFamily("Segoe Print")
-        font.setPointSize(12)
+        font.setPointSize(10)
         self.instructionText1.setFont(font)
         self.instructionText1.setScaledContents(False)
         self.instructionText1.setWordWrap(True)
@@ -45,7 +43,7 @@ class Ui_fileEncryption(object):
         self.instructionText2.setGeometry(QtCore.QRect(640, 470, 291, 61))
         font = QtGui.QFont()
         font.setFamily("Segoe Print")
-        font.setPointSize(12)
+        font.setPointSize(10)
         self.instructionText2.setFont(font)
         self.instructionText2.setWordWrap(True)
         self.instructionText2.setObjectName("instructionText2")
@@ -53,7 +51,7 @@ class Ui_fileEncryption(object):
         self.instructionText3.setGeometry(QtCore.QRect(640, 520, 311, 101))
         font = QtGui.QFont()
         font.setFamily("Segoe Print")
-        font.setPointSize(12)
+        font.setPointSize(10)
         self.instructionText3.setFont(font)
         self.instructionText3.setWordWrap(True)
         self.instructionText3.setObjectName("instructionText3")

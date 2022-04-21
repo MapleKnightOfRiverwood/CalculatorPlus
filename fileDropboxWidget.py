@@ -1,10 +1,9 @@
-import sys, os
+import os
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtGui import QPainter
-from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QListWidgetItem, QPushButton, QWidget, QStyleOption, \
-    QStyle
-from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtWidgets import QWidget, QStyleOption, QStyle
+from PyQt5.QtCore import Qt
 import shutil  # For copy function
 
 
@@ -24,10 +23,10 @@ class DropBoxWidget(QWidget):
         self.setObjectName("widget")
 
         self.dropFileLabel = QtWidgets.QLabel(self)
-        self.dropFileLabel.setGeometry(QtCore.QRect(40, 140, 231, 51))
+        self.dropFileLabel.setGeometry(QtCore.QRect(36, 140, 240, 51))
         font = QtGui.QFont()
         font.setFamily("Segoe Print")
-        font.setPointSize(18)
+        font.setPointSize(15)
         self.dropFileLabel.setFont(font)
         self.dropFileLabel.setStyleSheet("border: none")
         self.dropFileLabel.setObjectName("dropFileLabel")

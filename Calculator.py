@@ -2,7 +2,7 @@ import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtTest
 import pyperclip  # For copy function
-from PyQt5.QtWidgets import QMainWindow, QFileDialog
+from PyQt5.QtWidgets import QMainWindow
 from photoWidget import PhotoWidgetUI
 from developerInfoWidget import DevInfoUI
 from decimalFrame import DecimalFrameUI
@@ -41,9 +41,9 @@ class MyWindow(QMainWindow):
 
     def setupUi(self):
         self.setObjectName("MainFrame")
-        self.resize(581, 695)
-        self.setMinimumSize(QtCore.QSize(581, 695))
-        self.setMaximumSize(QtCore.QSize(581, 695))
+        self.resize(581, 701)
+        self.setMinimumSize(QtCore.QSize(581, 701))
+        self.setMaximumSize(QtCore.QSize(581, 701))
 
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("D:\Python Projects\DesignerProject\iconC.png"), QtGui.QIcon.Normal,
@@ -342,7 +342,7 @@ class MyWindow(QMainWindow):
         if not os.path.exists(appdataSavefilePath):
             self.settingPasscode = True
             font = QtGui.QFont()
-            font.setPointSize(22)
+            font.setPointSize(17)
             self.label.setFont(font)
             self.label.setText(_translate("MainFrame", "Please enter your passcode and press \"=\""))
         else:
@@ -474,7 +474,7 @@ class MyWindow(QMainWindow):
                 self.isFirstPasscode = False
                 print("First passcode is: " + self.firstPasscode)
                 font = QtGui.QFont()
-                font.setPointSize(19)
+                font.setPointSize(15)
                 self.label.setFont(font)
                 self.label.setText("Please enter your passcode again and press \"=\"")
             else:
@@ -485,11 +485,14 @@ class MyWindow(QMainWindow):
                     saveFile.write(self.firstPasscode)
                     saveFile.close()
                     self.thePasscode = self.firstPasscode
+                    font = QtGui.QFont()
+                    font.setPointSize(26)
+                    self.label.setFont(font)
                     self.label.setText("Passcode set successfully")
                     self.settingPasscode = False
                 else:
                     font = QtGui.QFont()
-                    font.setPointSize(16)
+                    font.setPointSize(13)
                     self.label.setFont(font)
                     self.label.setText("Passcode doesn't match, please re-enter first passcode")
                     self.isFirstPasscode = True
