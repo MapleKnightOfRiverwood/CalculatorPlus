@@ -10,11 +10,12 @@ import shutil  # For copy function
 class DropBoxWidget(QWidget):
     def __init__(self, parent=None):  # Set up the construction method like this to enable this class's object to be used like a normal QWidget
         super().__init__(parent)
+
         self.setAcceptDrops(True)
         self.setupUI()
         self.listOfFilePath = []
         userHome = os.path.expanduser("~")
-        self.appdataFilesPath = userHome + "\AppData\Local\CaldulatorPlus\TheFiles"
+        self.appdataFilesPath = userHome + "\AppData\Local\CalculatorPlus\TheFiles"
 
     def setupUI(self):
         self.setGeometry(QtCore.QRect(0, 0, 311, 321))
@@ -23,10 +24,10 @@ class DropBoxWidget(QWidget):
         self.setObjectName("widget")
 
         self.dropFileLabel = QtWidgets.QLabel(self)
-        self.dropFileLabel.setGeometry(QtCore.QRect(36, 140, 240, 51))
+        self.dropFileLabel.setGeometry(QtCore.QRect(44, 140, 240, 51))
         font = QtGui.QFont()
-        font.setFamily("Segoe Print")
-        font.setPointSize(15)
+        # font.setFamily("Segoe Print")
+        font.setPointSize(16)
         self.dropFileLabel.setFont(font)
         self.dropFileLabel.setStyleSheet("border: none")
         self.dropFileLabel.setObjectName("dropFileLabel")
@@ -38,7 +39,7 @@ class DropBoxWidget(QWidget):
         p = QPainter(self)
         self.style().drawPrimitive(QStyle.PE_Widget, o, p, self)
 
-    def dragEnterEvent(self, event):
+    def dragEnterEvent(self, event):  # These 3 methods go together for the drag and drop function
         if event.mimeData().hasUrls:
             event.accept()
         else:
@@ -58,19 +59,13 @@ class DropBoxWidget(QWidget):
 
             for url in event.mimeData().urls():
                 self.listOfFilePath.append(str(url.toLocalFile()))
-
             for filePath in self.listOfFilePath:
-
                 filePathFixed = filePath.replace('/', '\\')
                 fileName = os.path.basename(filePath)
                 destinationFilepathWithName = self.appdataFilesPath + "\\" + fileName
-
                 shutil.copyfile(filePath, destinationFilepathWithName)
-
                 print("File: " + str(filePathFixed))
                 print("File: " + str(destinationFilepathWithName))
-
-
         else:
             event.ignore()
 

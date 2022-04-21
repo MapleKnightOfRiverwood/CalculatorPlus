@@ -16,6 +16,7 @@ class MyWindow(QMainWindow):
         self.equalPressed = False
         self.decimalPlace = 6
 
+        # Use QMediaPlayer to play sound
         self.url = QtCore.QUrl.fromLocalFile("D:\Python Projects\DesignerProject\sound.mp3")
         self.content = QtMultimedia.QMediaContent(self.url)
         self.player = QtMultimedia.QMediaPlayer()
@@ -30,7 +31,6 @@ class MyWindow(QMainWindow):
         self.theFileEncryptionWidget = QtWidgets.QWidget()
         self.fileEncryptionUI = Ui_fileEncryption()
         self.fileEncryptionUI.setupUi(self.theFileEncryptionWidget)
-
 
         self.settingPasscode = False
         self.firstPasscode = None
@@ -293,7 +293,6 @@ class MyWindow(QMainWindow):
         self.pushButton_13.clicked.connect(self.divButtonClicked)
         self.pushButton_14.clicked.connect(self.equalButtonClicked)
 
-
         self.actionCopy_Result.triggered.connect(lambda: self.copyTextToClipboard(self.label.text()))
         self.actionDeveloper_Info.triggered.connect(lambda: self.theDevInfoWidget.show())
         self.actionSetDecimalPlace.triggered.connect(lambda: self.theDecimalFrame.show())
@@ -353,8 +352,6 @@ class MyWindow(QMainWindow):
             print("The passcode is: " + self.thePasscode)
             self.label.setText(_translate("MainFrame", "0"))
 
-
-
         self.pushButton_18.setText(_translate("MainFrame", "AC"))
         self.pushButton_19.setText(_translate("MainFrame", "("))
         self.pushButton_20.setText(_translate("MainFrame", ")"))
@@ -369,7 +366,6 @@ class MyWindow(QMainWindow):
         self.actionSetDecimalPlace.setStatusTip(_translate("MainFrame", "Choose how many decimal place to keep"))
         self.actionDeveloper_Info.setText(_translate("MainFrame", "Developer Info"))
         self.actionDeveloper_Info.setStatusTip(_translate("MainFrame", "Show developer information"))
-
 
 
     def resizeDisplay(self):
@@ -466,8 +462,6 @@ class MyWindow(QMainWindow):
             result = eval(divReplaced)
         except:
             pass
-
-
         if self.settingPasscode == True:
             if self.isFirstPasscode == True:
                 self.firstPasscode = self.label.text()
@@ -534,14 +528,13 @@ if __name__ == "__main__":
     import sys
 
     userHome = os.path.expanduser("~")
-    appdataPath = userHome + "\AppData\Local\CaldulatorPlus"
-    appdataFilesPath = userHome + "\AppData\Local\CaldulatorPlus\TheFiles"
+    appdataPath = userHome + "\AppData\Local\CalculatorPlus"
+    appdataFilesPath = userHome + "\AppData\Local\CalculatorPlus\TheFiles"
     appdataSavefilePath = appdataPath + "\Save"
     if not os.path.exists(appdataPath):
         os.makedirs(appdataPath)
     if not os.path.exists(appdataFilesPath):
         os.makedirs(appdataFilesPath)
-
 
 
     app = QtWidgets.QApplication(sys.argv)

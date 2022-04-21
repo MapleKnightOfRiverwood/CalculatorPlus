@@ -11,7 +11,6 @@ class PhotoWidgetUI(object):
         height = size.height()
         print("Monitor width is: " + str(width) + " Monitor height is:" + str(height))
 
-
         Form.setObjectName("Form")
         Form.resize(1296, 730)
 

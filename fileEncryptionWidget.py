@@ -15,11 +15,9 @@ class Ui_fileEncryption(object):
         fileEncryption.setMinimumSize(QtCore.QSize(951, 631))
         fileEncryption.setMaximumSize(QtCore.QSize(951, 631))
 
-
         self.theDropBox = DropBoxWidget(fileEncryption)
         self.theDropBox.move(630, 10)
         self.theDropBox.show()
-
 
         self.instructionText = QtWidgets.QLabel(fileEncryption)
         self.instructionText.setGeometry(QtCore.QRect(640, 350, 191, 41))
@@ -78,7 +76,7 @@ class Ui_fileEncryption(object):
 
     def populateWindow(self):
         userHome = os.path.expanduser("~")
-        appdataFilesPath = userHome + "\AppData\Local\CaldulatorPlus\TheFiles"
+        appdataFilesPath = userHome + "\AppData\Local\CalculatorPlus\TheFiles"
         self.model = QtWidgets.QFileSystemModel()
         self.model.setRootPath(QtCore.QDir.rootPath())
         self.treeView.setModel(self.model)
@@ -100,15 +98,11 @@ class Ui_fileEncryption(object):
         userHome = os.path.expanduser("~")
         desktopPath = userHome + "\Desktop"
         appdataPath = "D:\Python Projects\DesignerProject\Appdata"
-
         index = self.treeView.currentIndex()
         filePath = self.model.filePath(index)
         filePathFixed = filePath.replace('/', '\\')
-
         fileName = os.path.basename(filePath)
         desktopPathWithName = desktopPath + "\\" + fileName
-
-
         shutil.copyfile(filePath, desktopPathWithName)  # Copy the file to desktop
 
         print("Copied file is: " + filePathFixed)
@@ -118,9 +112,7 @@ class Ui_fileEncryption(object):
         index = self.treeView.currentIndex()
         filePath = self.model.filePath(index)
         filePathFixed = filePath.replace('/', '\\')
-
         os.remove(filePathFixed)
-
         print("Deleted file is: " + filePath)
 
 
