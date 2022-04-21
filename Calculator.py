@@ -1,11 +1,12 @@
 import os
 
-from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia
+from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtTest
 import pyperclip  # For copy function
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QFileDialog
 from photoWidget import PhotoWidgetUI
 from developerInfoWidget import DevInfoUI
 from decimalFrame import DecimalFrameUI
+from fileEncryptionWidget import Ui_fileEncryption
 
 
 class MyWindow(QMainWindow):
@@ -20,16 +21,29 @@ class MyWindow(QMainWindow):
         self.player = QtMultimedia.QMediaPlayer()
         self.player.setMedia(self.content)
 
-        self.thePhotoWidget = QtWidgets.QWidget()  # Declare the photoWidget here as it is not part of the main widget
+        # Declare the photoWidget here as it is not part of the main widget
+        self.thePhotoWidget = QtWidgets.QWidget()
         self.photoWidgetUI = PhotoWidgetUI()
         self.photoWidgetUI.setupUi(self.thePhotoWidget, app)
+
+        # Declare the fileEncryptionWidget here as it is not part of the main widget
+        self.theFileEncryptionWidget = QtWidgets.QWidget()
+        self.fileEncryptionUI = Ui_fileEncryption()
+        self.fileEncryptionUI.setupUi(self.theFileEncryptionWidget)
+
+
+        self.settingPasscode = False
+        self.firstPasscode = None
+        self.secondPasscode = None
+        self.isFirstPasscode = True
+        self.thePasscode = None
 
 
     def setupUi(self):
         self.setObjectName("MainFrame")
-        self.resize(581, 708)
-        self.setMinimumSize(QtCore.QSize(581, 708))
-        self.setMaximumSize(QtCore.QSize(581, 708))
+        self.resize(581, 695)
+        self.setMinimumSize(QtCore.QSize(581, 695))
+        self.setMaximumSize(QtCore.QSize(581, 695))
 
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("D:\Python Projects\DesignerProject\iconC.png"), QtGui.QIcon.Normal,
@@ -242,28 +256,44 @@ class MyWindow(QMainWindow):
         self.theDecimalFrame.move(95, 140)
         self.theDecimalFrame.hide()
 
+
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.pushButton_7.clicked.connect(lambda: self.numButtonClicked(self.pushButton_7.text()))
+        self.pushButton_7.clicked.connect(self.resizeDisplay)
         self.pushButton_8.clicked.connect(lambda: self.numButtonClicked(self.pushButton_8.text()))
+        self.pushButton_8.clicked.connect(self.resizeDisplay)
         self.pushButton_9.clicked.connect(lambda: self.numButtonClicked(self.pushButton_9.text()))
+        self.pushButton_9.clicked.connect(self.resizeDisplay)
         self.pushButton_4.clicked.connect(lambda: self.numButtonClicked(self.pushButton_4.text()))
+        self.pushButton_4.clicked.connect(self.resizeDisplay)
         self.pushButton_5.clicked.connect(lambda: self.numButtonClicked(self.pushButton_5.text()))
+        self.pushButton_5.clicked.connect(self.resizeDisplay)
         self.pushButton_6.clicked.connect(lambda: self.numButtonClicked(self.pushButton_6.text()))
+        self.pushButton_6.clicked.connect(self.resizeDisplay)
         self.pushButton.clicked.connect(lambda: self.numButtonClicked(self.pushButton.text()))
+        self.pushButton.clicked.connect(self.resizeDisplay)
         self.pushButton_2.clicked.connect(lambda: self.numButtonClicked(self.pushButton_2.text()))
+        self.pushButton_2.clicked.connect(self.resizeDisplay)
         self.pushButton_3.clicked.connect(lambda: self.numButtonClicked(self.pushButton_3.text()))
+        self.pushButton_3.clicked.connect(self.resizeDisplay)
         self.pushButton_15.clicked.connect(lambda: self.numButtonClicked(self.pushButton_15.text()))
+        self.pushButton_15.clicked.connect(self.resizeDisplay)
         self.pushButton_16.clicked.connect(lambda: self.numButtonClicked(self.pushButton_16.text()))
+        self.pushButton_16.clicked.connect(self.resizeDisplay)
         self.pushButton_19.clicked.connect(lambda: self.numButtonClicked(self.pushButton_19.text()))
+        self.pushButton_19.clicked.connect(self.resizeDisplay)
         self.pushButton_20.clicked.connect(lambda: self.numButtonClicked(self.pushButton_20.text()))
+        self.pushButton_20.clicked.connect(self.resizeDisplay)
         self.pushButton_18.clicked.connect(self.ACButtonClicked)
         self.pushButton_10.clicked.connect(self.plusButtonClicked)
         self.pushButton_11.clicked.connect(self.minusButtonClicked)
         self.pushButton_12.clicked.connect(self.mulButtonClicked)
         self.pushButton_13.clicked.connect(self.divButtonClicked)
         self.pushButton_14.clicked.connect(self.equalButtonClicked)
+
+
         self.actionCopy_Result.triggered.connect(lambda: self.copyTextToClipboard(self.label.text()))
         self.actionDeveloper_Info.triggered.connect(lambda: self.theDevInfoWidget.show())
         self.actionSetDecimalPlace.triggered.connect(lambda: self.theDecimalFrame.show())
@@ -278,22 +308,53 @@ class MyWindow(QMainWindow):
 
         # Everything on the main widget
         self.pushButton.setText(_translate("MainFrame", "7"))
+        self.pushButton.setShortcut(_translate("MainFrame", "7"))
         self.pushButton_2.setText(_translate("MainFrame", "8"))
+        self.pushButton_2.setShortcut(_translate("MainFrame", "8"))
         self.pushButton_3.setText(_translate("MainFrame", "9"))
+        self.pushButton_3.setShortcut(_translate("MainFrame", "9"))
         self.pushButton_4.setText(_translate("MainFrame", "4"))
+        self.pushButton_4.setShortcut(_translate("MainFrame", "4"))
         self.pushButton_5.setText(_translate("MainFrame", "5"))
+        self.pushButton_5.setShortcut(_translate("MainFrame", "5"))
         self.pushButton_6.setText(_translate("MainFrame", "6"))
+        self.pushButton_6.setShortcut(_translate("MainFrame", "6"))
         self.pushButton_7.setText(_translate("MainFrame", "1"))
+        self.pushButton_7.setShortcut(_translate("MainFrame", "1"))
         self.pushButton_8.setText(_translate("MainFrame", "2"))
+        self.pushButton_8.setShortcut(_translate("MainFrame", "2"))
         self.pushButton_9.setText(_translate("MainFrame", "3"))
+        self.pushButton_9.setShortcut(_translate("MainFrame", "3"))
         self.pushButton_10.setText(_translate("MainFrame", "+"))
+        self.pushButton_10.setShortcut(_translate("MainFrame", "Shift+="))
         self.pushButton_11.setText(_translate("MainFrame", "−"))
+        self.pushButton_11.setShortcut(_translate("MainFrame", "-"))
         self.pushButton_12.setText(_translate("MainFrame", "×"))
+        self.pushButton_12.setShortcut(_translate("MainFrame", "Shift+8"))
         self.pushButton_13.setText(_translate("MainFrame", "÷"))
+        self.pushButton_13.setShortcut(_translate("MainFrame", "/"))
         self.pushButton_14.setText(_translate("MainFrame", "="))
+        self.pushButton_14.setShortcut(_translate("MainFrame", "Return"))
         self.pushButton_15.setText(_translate("MainFrame", "0"))
+        self.pushButton_15.setShortcut(_translate("MainFrame", "0"))
         self.pushButton_16.setText(_translate("MainFrame", "."))
-        self.label.setText(_translate("MainFrame", "0"))
+
+        if not os.path.exists(appdataSavefilePath):
+            self.settingPasscode = True
+            font = QtGui.QFont()
+            font.setPointSize(22)
+            self.label.setFont(font)
+            self.label.setText(_translate("MainFrame", "Please enter your passcode and press \"=\""))
+        else:
+            saveFile = open(appdataSavefilePath, "r")  # Read the passcode
+            tempPasscode = saveFile.read(self.firstPasscode)
+            saveFile.close()
+            self.thePasscode = tempPasscode
+            print("The passcode is: " + self.thePasscode)
+            self.label.setText(_translate("MainFrame", "0"))
+
+
+
         self.pushButton_18.setText(_translate("MainFrame", "AC"))
         self.pushButton_19.setText(_translate("MainFrame", "("))
         self.pushButton_20.setText(_translate("MainFrame", ")"))
@@ -310,6 +371,12 @@ class MyWindow(QMainWindow):
         self.actionDeveloper_Info.setStatusTip(_translate("MainFrame", "Show developer information"))
 
 
+
+    def resizeDisplay(self):
+        font = QtGui.QFont()
+        font.setPointSize(36)
+        self.label.setFont(font)
+
     def numButtonClicked(self, text):
         if not self.equalPressed:
             oldText = self.label.text()
@@ -319,49 +386,76 @@ class MyWindow(QMainWindow):
                     self.label.setText(newText)
                 else:
                     self.label.setText(text)
+            elif oldText == "Please enter your passcode and press \"=\"":
+                self.label.setText(text)
+            elif oldText == "Please enter your passcode again and press \"=\"":
+                self.label.setText(text)
             else:
                 newText = oldText + text
                 self.label.setText(newText)
         else:
             if text == ".":
-                self.label.setText("0" + text)
-                self.equalPressed = False
+                if self.label.text() == "Please enter your passcode again and press \"=\"" or self.label.text() == "Passcode doesn't match, please re-enter first passcode":
+                    self.label.setText(text)
+                    self.equalPressed = False
+                else:
+                    self.label.setText("0" + text)
+                    self.equalPressed = False
             else:
                 self.label.setText(text)
                 self.equalPressed = False
 
     def ACButtonClicked(self):
+        self.resizeDisplay()
         self.label.setText("0")
         self.equalPressed = False
 
     def plusButtonClicked(self):
-        oldText = self.label.text()
-        newText = oldText + "+"
-        self.label.setText(newText)
-        self.equalPressed = False
+        self.resizeDisplay()
+        if self.label.text() == "Please enter your passcode and press \"=\"" or self.label.text() == "Please enter your passcode again and press \"=\""\
+                or self.label.text() == "Passcode doesn't match, please re-enter first passcode":
+            self.label.setText("+")
+        else:
+            oldText = self.label.text()
+            newText = oldText + "+"
+            self.label.setText(newText)
+            self.equalPressed = False
 
     def minusButtonClicked(self):
-        oldText = self.label.text()
-        newText = oldText + "-"
-        self.label.setText(newText)
-        self.equalPressed = False
+        self.resizeDisplay()
+        if self.label.text() == "Please enter your passcode and press \"=\"" or self.label.text() == "Please enter your passcode again and press \"=\""\
+                or self.label.text() == "Passcode doesn't match, please re-enter first passcode":
+            self.label.setText("-")
+        else:
+            oldText = self.label.text()
+            newText = oldText + "-"
+            self.label.setText(newText)
+            self.equalPressed = False
 
     def mulButtonClicked(self):
-        oldText = self.label.text()
-        newText = oldText + "×"
-        self.label.setText(newText)
-        self.equalPressed = False
+        self.resizeDisplay()
+        if self.label.text() == "Please enter your passcode and press \"=\"" or self.label.text() == "Please enter your passcode again and press \"=\""\
+                or self.label.text() == "Passcode doesn't match, please re-enter first passcode":
+            self.label.setText("×")
+        else:
+            oldText = self.label.text()
+            newText = oldText + "×"
+            self.label.setText(newText)
+            self.equalPressed = False
 
     def divButtonClicked(self):
-        oldText = self.label.text()
-        newText = oldText + "÷"
-        self.label.setText(newText)
-        self.equalPressed = False
+        self.resizeDisplay()
+        if self.label.text() == "Please enter your passcode and press \"=\"" or self.label.text() == "Please enter your passcode again and press \"=\""\
+                or self.label.text() == "Passcode doesn't match, please re-enter first passcode":
+            self.label.setText("÷")
+        else:
+            oldText = self.label.text()
+            newText = oldText + "÷"
+            self.label.setText(newText)
+            self.equalPressed = False
 
     def equalButtonClicked(self):
-        font = QtGui.QFont()
-        font.setPointSize(36)
-        self.label.setFont(font)
+        self.resizeDisplay()
         print("Decimal Place: " + str(self.decimalPlace))
         self.equalPressed = True
         oldText = self.label.text()
@@ -372,16 +466,45 @@ class MyWindow(QMainWindow):
             result = eval(divReplaced)
         except:
             pass
-        print(result)
-        print(self.equalPressed)
-        if result == "Error":
+
+
+        if self.settingPasscode == True:
+            if self.isFirstPasscode == True:
+                self.firstPasscode = self.label.text()
+                self.isFirstPasscode = False
+                print("First passcode is: " + self.firstPasscode)
+                font = QtGui.QFont()
+                font.setPointSize(19)
+                self.label.setFont(font)
+                self.label.setText("Please enter your passcode again and press \"=\"")
+            else:
+                self.secondPasscode = self.label.text()
+                print("Second passcode is: " + self.secondPasscode)
+                if self.firstPasscode == self.secondPasscode:
+                    saveFile = open(appdataSavefilePath, "w")  # Write the passcode to file
+                    saveFile.write(self.firstPasscode)
+                    saveFile.close()
+                    self.thePasscode = self.firstPasscode
+                    self.label.setText("Passcode set successfully")
+                    self.settingPasscode = False
+                else:
+                    font = QtGui.QFont()
+                    font.setPointSize(16)
+                    self.label.setFont(font)
+                    self.label.setText("Passcode doesn't match, please re-enter first passcode")
+                    self.isFirstPasscode = True
+        elif result == "Error":
             self.label.setText("Error")
+        elif result == int(self.thePasscode):
+            print("Passcode entered!")
+            self.theFileEncryptionWidget.show()
         elif result == 5555:
             self.label.setText("Try secret code 191")
         elif result == 191:
             self.label.setText("Now enter 2012")
         elif result == 2012:
             self.player.play()
+            QtTest.QTest.qWait(200)  # Wait for 200 milliseconds to coordinate picture with sound
             self.thePhotoWidget.showFullScreen()
             self.label.setText("LOL")
         else:
@@ -406,6 +529,17 @@ class MyWindow(QMainWindow):
 
 if __name__ == "__main__":
     import sys
+
+    userHome = os.path.expanduser("~")
+    appdataPath = userHome + "\AppData\Local\CaldulatorPlus"
+    appdataFilesPath = userHome + "\AppData\Local\CaldulatorPlus\TheFiles"
+    appdataSavefilePath = appdataPath + "\Save"
+    if not os.path.exists(appdataPath):
+        os.makedirs(appdataPath)
+    if not os.path.exists(appdataFilesPath):
+        os.makedirs(appdataFilesPath)
+
+
 
     app = QtWidgets.QApplication(sys.argv)
     ui = MyWindow()
