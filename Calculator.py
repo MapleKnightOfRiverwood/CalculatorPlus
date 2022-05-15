@@ -2,7 +2,7 @@ import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia, QtTest
 import pyperclip  # For copy function
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from photoWidget import PhotoWidgetUI
 from developerInfoWidget import DevInfoUI
 from decimalFrame import DecimalFrameUI
@@ -28,9 +28,14 @@ class MyWindow(QMainWindow):
         self.photoWidgetUI.setupUi(self.thePhotoWidget, app)
 
         # Declare the fileEncryptionWidget here as it is not part of the main widget
-        self.theFileEncryptionWidget = QtWidgets.QWidget()
+        self.theFileEncryptionWidget = QtWidgets.QMainWindow()
         self.fileEncryptionUI = Ui_fileEncryption()
         self.fileEncryptionUI.setupUi(self.theFileEncryptionWidget)
+
+        # Icon file
+        self.icon = QtGui.QIcon()
+        self.icon.addPixmap(QtGui.QPixmap("D:\Python Projects\DesignerProject\iconC.png"), QtGui.QIcon.Normal,
+                       QtGui.QIcon.Off)
 
         self.settingPasscode = False
         self.firstPasscode = None
@@ -45,10 +50,7 @@ class MyWindow(QMainWindow):
         self.setMinimumSize(QtCore.QSize(581, 701))
         self.setMaximumSize(QtCore.QSize(581, 701))
 
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("D:\Python Projects\DesignerProject\iconC.png"), QtGui.QIcon.Normal,
-                       QtGui.QIcon.Off)
-        self.setWindowIcon(icon)
+        self.setWindowIcon(self.icon)
 
         self.MainWidget = QtWidgets.QWidget(self)
         self.MainWidget.setObjectName("MainWidget")
@@ -59,6 +61,8 @@ class MyWindow(QMainWindow):
         font.setPointSize(36)
         self.label.setFont(font)
         self.label.setObjectName("label")
+        self.label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignCenter)
+
         self.pushButton = QtWidgets.QPushButton(self.MainWidget)
         self.pushButton.setGeometry(QtCore.QRect(10, 220, 131, 101))
         font = QtGui.QFont()
@@ -300,6 +304,7 @@ class MyWindow(QMainWindow):
         self.photoWidgetUI.closeTheImage.clicked.connect(lambda: self.thePhotoWidget.hide())
         self.photoWidgetUI.closeTheImage.clicked.connect(lambda: self.player.stop())
         self.decimalFrameUI.pushButton.clicked.connect(lambda: self.setDecimalPlace(self.getEnteredInt()))
+        self.fileEncryptionUI.actionChange_Passcode.triggered.connect(lambda: self.resetPasscode())
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
@@ -337,6 +342,7 @@ class MyWindow(QMainWindow):
         self.pushButton_15.setText(_translate("MainFrame", "0"))
         self.pushButton_15.setShortcut(_translate("MainFrame", "0"))
         self.pushButton_16.setText(_translate("MainFrame", "."))
+        self.pushButton_16.setShortcut(_translate("MainFrame", "."))
 
         if not os.path.exists(appdataSavefilePath):
             self.settingPasscode = True
@@ -367,6 +373,15 @@ class MyWindow(QMainWindow):
         self.actionDeveloper_Info.setText(_translate("MainFrame", "Developer Info"))
         self.actionDeveloper_Info.setStatusTip(_translate("MainFrame", "Show developer information"))
 
+    def resetPasscode(self):
+        self.theFileEncryptionWidget.hide()
+        os.remove(appdataSavefilePath)
+        self.settingPasscode = True
+        self.firstPasscode = None
+        self.secondPasscode = None
+        self.isFirstPasscode = True
+        self.thePasscode = None
+        self.retranslateUi()
 
     def resizeDisplay(self):
         font = QtGui.QFont()
@@ -484,6 +499,7 @@ class MyWindow(QMainWindow):
                     self.label.setFont(font)
                     self.label.setText("Passcode set successfully")
                     self.settingPasscode = False
+                    self.showMessage()
                 else:
                     font = QtGui.QFont()
                     font.setPointSize(13)
@@ -506,6 +522,16 @@ class MyWindow(QMainWindow):
             self.label.setText("LOL")
         else:
             self.label.setText(str(round(result, self.decimalPlace)))
+
+    def showMessage(self):
+        message = QMessageBox()
+        message.setWindowTitle("Passcode set successful!")
+        message.setText("Instruction:\n\n"
+                        "Enter your passcode at anytime and press \"=\" to enter the secret file vault.\n\n"
+                        "The passcode can be changed inside the file vault:\n"
+                        "Menu -> Change Passcode")
+        message.setWindowIcon(self.icon)
+        message.exec_()
 
     def copyTextToClipboard(self, text):
         pyperclip.copy(text)
