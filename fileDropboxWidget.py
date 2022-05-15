@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget, QStyleOption, QStyle
 from PyQt5.QtCore import Qt
+from encryptionModule import fileEncryptor
 import shutil  # For copy function
 
 
@@ -63,7 +64,8 @@ class DropBoxWidget(QWidget):
                 filePathFixed = filePath.replace('/', '\\')
                 fileName = os.path.basename(filePath)
                 destinationFilepathWithName = self.appdataFilesPath + "\\" + fileName
-                shutil.copyfile(filePath, destinationFilepathWithName)
+                # shutil.copyfile(filePath, destinationFilepathWithName)
+                fileEncryptor.encrypt(filePath, destinationFilepathWithName)
                 print("File: " + str(filePathFixed))
                 print("File: " + str(destinationFilepathWithName))
         else:
