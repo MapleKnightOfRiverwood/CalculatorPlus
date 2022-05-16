@@ -21,6 +21,7 @@ class fileEncryptor:
                 elif 249 < btAr[n] <= 255:
                     btAr[n] = btAr[n] - 250
                 n = n + 1
+            btAr.reverse()
             btString = bytes(btAr)
 
             encryptedFile = open(destination, "wb")
@@ -37,6 +38,7 @@ class fileEncryptor:
             file.close()
 
             btAr = bytearray(fileContents)
+            btAr.reverse()
 
             length = len(btAr)
             n = 0
