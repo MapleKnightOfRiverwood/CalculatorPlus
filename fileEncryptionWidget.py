@@ -1,6 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
-import shutil  # For copy function
 from fileDropboxWidget import DropBoxWidget
 from encryptionModule import fileEncryptor
 
@@ -128,7 +127,6 @@ class Ui_fileEncryption(object):
         filePathFixed = filePath.replace('/', '\\')
         fileName = os.path.basename(filePath)
         desktopPathWithName = desktopPath + "\\" + fileName
-        # shutil.copyfile(filePath, desktopPathWithName)  # Copy the file to desktop
         fileEncryptor.decrypt(filePath, desktopPathWithName)
 
         print("Copied file is: " + filePathFixed)

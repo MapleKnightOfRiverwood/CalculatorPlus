@@ -5,7 +5,6 @@ from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget, QStyleOption, QStyle
 from PyQt5.QtCore import Qt
 from encryptionModule import fileEncryptor
-import shutil  # For copy function
 
 
 class DropBoxWidget(QWidget):
@@ -27,7 +26,6 @@ class DropBoxWidget(QWidget):
         self.dropFileLabel = QtWidgets.QLabel(self)
         self.dropFileLabel.setGeometry(QtCore.QRect(44, 140, 240, 51))
         font = QtGui.QFont()
-        # font.setFamily("Segoe Print")
         font.setPointSize(16)
         self.dropFileLabel.setFont(font)
         self.dropFileLabel.setStyleSheet("border: none")
@@ -64,7 +62,6 @@ class DropBoxWidget(QWidget):
                 filePathFixed = filePath.replace('/', '\\')
                 fileName = os.path.basename(filePath)
                 destinationFilepathWithName = self.appdataFilesPath + "\\" + fileName
-                # shutil.copyfile(filePath, destinationFilepathWithName)
                 fileEncryptor.encrypt(filePath, destinationFilepathWithName)
                 print("File: " + str(filePathFixed))
                 print("File: " + str(destinationFilepathWithName))
