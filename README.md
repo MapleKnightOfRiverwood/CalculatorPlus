@@ -4,3 +4,5 @@
 ##### A windows executable file (.exe) of the 1.0 version of the software can be found in the output folder
 ##### Calculator.py is the main logic
 ##### Developed by David with Riverwood Softwares Inc.
+
+### NOTE: Due to public request, the latest encryption algorithem used is not updated in the source code in order to eliminate the risk of decipherment.
